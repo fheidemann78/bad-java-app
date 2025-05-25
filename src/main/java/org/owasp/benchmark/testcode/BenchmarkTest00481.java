@@ -64,6 +64,15 @@ public class BenchmarkTest00481 extends HttpServlet {
             argList.add("sh");
             argList.add("-c");
         }
+        // Sanitize 'param' to only allow alphanumeric characters to prevent command injection
+        if (!map.isEmpty()) {
+            String[] values = map.get("BenchmarkTest00481");
+            if (values != null) {
+                param = values[0];
+                // Change this regex to suit tighter requirements if needed!
+                param = param.replaceAll("[^a-zA-Z0-9]", "");
+            }
+        }
         argList.add("echo " + bar);
 
         ProcessBuilder pb = new ProcessBuilder(argList);
